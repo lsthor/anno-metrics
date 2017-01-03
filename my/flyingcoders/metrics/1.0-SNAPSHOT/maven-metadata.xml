@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata modelVersion="1.1.0">
-  <groupId>com.test.aspectj</groupId>
+  <groupId>my.flyingcoders</groupId>
   <artifactId>metrics</artifactId>
   <version>1.0-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20170103.074755</timestamp>
+      <timestamp>20170103.081732</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
-    <lastUpdated>20170103074755</lastUpdated>
+    <lastUpdated>20170103081732</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>1.0-20170103.074755-1</value>
-        <updated>20170103074755</updated>
+        <value>1.0-20170103.081732-1</value>
+        <updated>20170103081732</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>1.0-20170103.074755-1</value>
-        <updated>20170103074755</updated>
+        <value>1.0-20170103.081732-1</value>
+        <updated>20170103081732</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

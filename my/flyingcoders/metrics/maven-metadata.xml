@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>com.test.aspectj</groupId>
+  <groupId>my.flyingcoders</groupId>
   <artifactId>metrics</artifactId>
   <versioning>
     <versions>
       <version>1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20170103074755</lastUpdated>
+    <lastUpdated>20170103081732</lastUpdated>
   </versioning>
 </metadata>
