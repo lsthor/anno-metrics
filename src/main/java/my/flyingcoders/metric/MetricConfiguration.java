@@ -5,14 +5,9 @@ import com.codahale.metrics.jvm.ClassLoadingGaugeSet;
 import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
 import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /*
 TODO : add flag to prevent multiple init
@@ -25,17 +20,17 @@ public class MetricConfiguration {
     private boolean memoryUsageGaugeOn;
     private boolean garbageCollectorMetricOn;
     private boolean classLoadingGaugeOn;
-    private MetricRegistry registry;
+    private final MetricRegistry registry;
+    private boolean initialized;
     private static MetricConfiguration instance = null;
 
     protected MetricConfiguration() {
+        this.initialized = false;
         this.registry = new MetricRegistry();
     }
 
-    // Lazy Initialization (If required then only)
     public static MetricConfiguration getInstance() {
         if (instance == null) {
-            // Thread Safe. Might be costly operation in some case
             synchronized (MetricConfiguration.class) {
                 if (instance == null) {
                     instance = new MetricConfiguration();
@@ -60,10 +55,18 @@ public class MetricConfiguration {
         return this;
     }
 
-    public MetricConfiguration build(String path){
+    public MetricRegistry metricRegistry(){
+        return this.registry;
+    }
+
+    public MetricBuilder build(String path){
+        if(initialized) {
+            throw new IllegalStateException("Already initialized.");
+        }
+
         this.path = path;
 
-        createRegistry();
+        initiateRegistry();
 
         scanAllTheClassInThePath(path);
 
@@ -74,11 +77,11 @@ public class MetricConfiguration {
 //                .convertDurationsTo(TimeUnit.MILLISECONDS)
 //                .build();
 //        reporter.start(10, TimeUnit.SECONDS);
-
-        return this;
+        initialized = true;
+        return new MetricBuilder(this);
     }
 
-    private void createRegistry() {
+    private void initiateRegistry() {
         if(memoryUsageGaugeOn) {
             registry.registerAll(new MemoryUsageGaugeSet());
         }
@@ -88,14 +91,6 @@ public class MetricConfiguration {
         if(classLoadingGaugeOn) {
             registry.registerAll(new ClassLoadingGaugeSet());
         }
-    }
-
-    public MetricRegistry metricRegistry() {
-        return this.registry;
-    }
-
-    private void checkIfMethodIsAnnotated() {
-
     }
 
     private void scanAllTheClassInThePath(String path) {
